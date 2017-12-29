@@ -40,8 +40,10 @@ public class Comercial {
  * 
  * @return
  */
-	public Venta crearVenta() {		
-		return new Venta();		
+	public Venta crearVenta() {
+		Venta aux = new Venta();
+		ventas.add(aux);
+		return aux;		
 		
 	}
 	
@@ -60,8 +62,10 @@ public class Comercial {
 	 * 
 	 */
 	
-	public void crearVentaParametro(long id, String nombre, long valor) {
-		ventas.add(new Venta(id, nombre, valor));
+	public Venta crearVentaParametro(long id, String nombre, long valor) {
+		Venta aux = new Venta(id, nombre, valor); 
+		ventas.add(aux);
+		return aux;
 	}
 	
 	/**
@@ -71,17 +75,24 @@ public class Comercial {
 	public void devolucion(long id) {
 		final Venta[] devuelto = new Venta[1];
 		final Venta []i = new Venta[1];
+		final boolean [] encontrado = new boolean[] {false};
 		
 		if(ventas.size()>0) {
 		ventas.forEach(k->{
-		devuelto[0]= k;
-		if(devuelto[0].getId()==id) {
+			devuelto[0]= k;
+		if(devuelto[0].getId()==id) {			
 			i[0]=devuelto[0];
+			encontrado[0] = true;//Encontrado id en el ArrayList
 		}});
 		
-		if(i[0].getId()==id) {
+		if(encontrado[0]) {
+			if(i[0].getId()==id) {
 			System.out.println("El comercial con id +" +this.id + " ha devuelto el producto +" + id);
 			ventas.remove(ventas.indexOf(i[0]));
+			}
+		}
+		else {
+				System.out.println("Id " + id + " no encontrado");
 		}
 		}
 	}
